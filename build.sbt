@@ -16,3 +16,6 @@ publishTo := Some(Resolver.file("com.todesking",file("./repo/"))(Patterns(true, 
 
 // scoverage
 instrumentSettings
+
+ScoverageKeys.highlighting := true
+

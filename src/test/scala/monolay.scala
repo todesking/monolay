@@ -5,16 +5,51 @@ import org.scalatest.Assertions._
 
 class LayoutSpec extends FunSpec with Matchers {
   describe("Layout") {
-    describe("when empty") {
-      def subject() = new Layout(80)
-
-      describe("#toString()") {
+    describe("#toString()") {
+      describe("when empty") {
         it("should return empty string") {
-          subject().toString() shouldEqual ""
+          val subject = new Layout(80)
+          subject.toString() shouldEqual ""
         }
       }
+      describe("when contains only one(current) line") {
+        it("should return the line content without line delimiter") {
+          val subject = new Layout(10)
+          subject.appendRaw("a")
+          subject.toString() shouldEqual "a"
+        }
+      }
+      describe("when contains some lines but current line is empty") {
+        it("should return contents of lines, no last line delimiter") {
+          val subject = new Layout(80)
+          subject.appendRaw("a")
+          subject.newLine()
+          subject.appendRaw("b")
+          subject.newLine()
 
+          subject.toString() shouldEqual "a\nb"
+        }
+      }
+      describe("when contains some lines and non-empty current line") {
+        it("should return lines + current line without last line delimiter") {
+          val subject = new Layout(80)
+          subject.appendRaw("a")
+          subject.newLine()
+          subject.appendRaw("b")
+          subject.newLine()
+          subject.appendRaw("c")
+
+          subject.toString() shouldEqual "a\nb\nc"
+        }
+      }
     }
-
+    describe("#appendRaw()") {
+      it("should append string to currentline as raw") {
+        val subject = new Layout(10)
+        subject.appendRaw("a" * 20)
+        subject.appendRaw("b" * 20)
+        subject.toString shouldEqual ("a" * 20 + "b" * 20)
+      }
+    }
   }
 }

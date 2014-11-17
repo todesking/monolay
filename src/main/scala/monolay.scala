@@ -26,12 +26,16 @@ class Layout(optimalWidth:Int, private var indentLevel:Int = 0) {
   def restWidth:Int = optimalWidth - indentLevel
 
   override def toString() =
-    if(lines.isEmpty && !hasCurrentLineContent)
-      ""
-    else if(hasCurrentLineContent)
-      lines.mkString("\n") + currentLine + "\n"
-    else
-      lines.mkString("\n")
+    (lines.nonEmpty, hasCurrentLineContent) match {
+      case (false, false) =>
+        ""
+      case (false, true) =>
+        currentLine
+      case (true, false) =>
+        lines.mkString("\n")
+      case (true, true) =>
+        lines.mkString("\n") + "\n" + currentLine
+    }
 
   def appendRaw(str: String): Unit =
     currentLine += str
