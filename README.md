@@ -18,12 +18,14 @@ This is useful to generate simple text format(like Markdown), or to build user-f
 
 ## Current status
 
-Theres nothing but trust me.
+STATUS: Under construction.
 
 The project based on these classes:
 
 * [dox's Layout class](https://github.com/todesking/dox/blob/6dfdb522fb3d5c7040dc64274e5e9cad0b8635ba/formatter.scala#L3)
 * [jcon's Table class](https://github.com/todesking/jcon/blob/04d7ab11f13959d2b6f579695112bd85bce6e768/src/main/scala/Table.scala)
+
+I'll porting these, and write tests.
 
 ## Related products
 
