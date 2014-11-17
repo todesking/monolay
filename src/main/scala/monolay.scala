@@ -1,6 +1,6 @@
 package com.todesking.monolay
 
-class Layout(optimalWidth:Int, private var indentLevel:Int) {
+class Layout(optimalWidth:Int, private var indentLevel:Int = 0) {
   import scala.collection.mutable
   private var lines = mutable.ArrayBuffer.empty[String]
   private var currentLine:String = ""
@@ -26,7 +26,12 @@ class Layout(optimalWidth:Int, private var indentLevel:Int) {
   def restWidth:Int = optimalWidth - indentLevel
 
   override def toString() =
-    lines.mkString("\n") + currentLine + "\n"
+    if(lines.isEmpty && !hasCurrentLineContent)
+      ""
+    else if(hasCurrentLineContent)
+      lines.mkString("\n") + currentLine + "\n"
+    else
+      lines.mkString("\n")
 
   def appendRaw(str: String): Unit =
     currentLine += str
