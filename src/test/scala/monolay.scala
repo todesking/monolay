@@ -51,5 +51,27 @@ class LayoutSpec extends FunSpec with Matchers {
         subject.toString shouldEqual ("a" * 20 + "b" * 20)
       }
     }
+    describe("#appendUnbreakable") {
+      describe("current line is empty") {
+        it("should append non-breakable text fragment") {
+          val subject = new Layout(5)
+          subject.appendUnbreakable("a " * 10)
+          subject.toString() shouldEqual ("a " * 10)
+        }
+      }
+      describe("current line is not empty") {
+        it("should append non-breakable text on next line") {
+          val subject = new Layout(5)
+          subject.appendRaw("111")
+          subject.appendUnbreakable("a " * 10)
+          subject.toString() shouldEqual ("111\n" + "a " * 10)
+        }
+      }
+      it("should append multi lines at once") {
+        val subject = new Layout(3)
+        subject.appendUnbreakable("aaa\nbbbbbb\ncccc")
+        subject.toString() shouldEqual "aaa\nbbbbbb\ncccc"
+      }
+    }
   }
 }
