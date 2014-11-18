@@ -4,6 +4,8 @@ import org.scalatest.{FunSpec, Matchers}
 import org.scalatest.Assertions._
 
 class LayoutSpec extends FunSpec with Matchers {
+  def withSubject[A](subject: A)(f: A => Unit) = f(subject)
+
   describe("Layout") {
     describe("#toString()") {
       describe("when empty") {
@@ -20,14 +22,21 @@ class LayoutSpec extends FunSpec with Matchers {
         }
       }
       describe("when contains some lines but current line is empty") {
-        it("should return contents of lines, no last line delimiter") {
+        it("should return contents of lines") {
           val subject = new Layout(80)
           subject.appendRaw("a")
           subject.newLine()
           subject.appendRaw("b")
           subject.newLine()
 
-          subject.toString() shouldEqual "a\nb"
+          subject.toString() shouldEqual "a\nb\n"
+        }
+      }
+      describe("when contains a line but current line is empty") {
+        it("should return a empty line") {
+          val subject = new Layout(80)
+          subject.newLine()
+          subject.toString() shouldEqual "\n"
         }
       }
       describe("when contains some lines and non-empty current line") {
@@ -105,6 +114,13 @@ class LayoutSpec extends FunSpec with Matchers {
         val subject = new Layout(7)
         subject.appendEqualSpaced("a", "b", "c")
         subject.toString() shouldEqual "a  b  c"
+      }
+      describe("when no parts provided") {
+        it("should just add empty line") {
+          val subject = new Layout(7)
+          subject.appendEqualSpaced()
+          subject.toString() shouldEqual "\n"
+        }
       }
     }
   }

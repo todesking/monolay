@@ -32,7 +32,7 @@ class Layout(optimalWidth:Int, private var indentLevel:Int = 0) {
       case (false, true) =>
         currentLine
       case (true, false) =>
-        lines.mkString("\n")
+        lines.mkString("\n") + "\n"
       case (true, true) =>
         lines.mkString("\n") + "\n" + currentLine
     }
