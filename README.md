@@ -1,4 +1,7 @@
 # Monolay: Monospace Text Layout Engine for Scala
+[![Circle CI](https://circleci.com/gh/todesking/monolay.png?style=badge)](https://circleci.com/gh/todesking/monolay)
+[![Coverage Status](https://img.shields.io/coveralls/todesking/monolay.svg)](https://coveralls.io/r/todesking/monolay?branch=master)
+
 
 Monolay is text layout engine.
 This is useful to generate simple text format(like Markdown), or to build user-friendly console application.
