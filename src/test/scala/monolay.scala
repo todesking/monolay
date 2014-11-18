@@ -141,5 +141,14 @@ class LayoutSpec extends FunSpec with Matchers {
         }
       }
     }
+    describe("#newLine()") {
+      it("should append line delimiter") {
+        val subject = new Layout(7)
+        subject.newLine()
+        subject.appendRaw("1")
+        subject.newLine()
+        subject.toString() shouldEqual "\n1\n"
+      }
+    }
   }
 }
