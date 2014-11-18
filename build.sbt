@@ -17,6 +17,9 @@ publishTo := Some(Resolver.file("com.todesking",file("./repo/"))(Patterns(true, 
 // scoverage
 instrumentSettings
 
+org.scoverage.coveralls.CoverallsPlugin.coverallsSettings
+
+
 ScoverageKeys.highlighting := true
 
 // ScalaTest: Generate junit-style xml report

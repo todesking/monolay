@@ -9,3 +9,5 @@ dependencies:
 test:
   override:
     - "sbt scoverage:test"
+  post:
+    - "sbt coveralls"
