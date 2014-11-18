@@ -1,0 +1,4 @@
+dependencies:
+  pre:
+    - mkdir -p ~/.sbt/.lib/0.13.6/
+    - wget http://repo.typesafe.com/typesafe/ivy-releases/org.scala-sbt/sbt-launch/0.13.6/sbt-launch.jar -O ~/.sbt/.lib/0.13.6/sbt-launch.jar
