@@ -100,5 +100,12 @@ class LayoutSpec extends FunSpec with Matchers {
         subject.toString() shouldEqual "ab c"
       }
     }
+    describe("#appendEqualSpaced()") {
+      it("should add multiple string part as equal spaced layout") {
+        val subject = new Layout(7)
+        subject.appendEqualSpaced("a", "b", "c")
+        subject.toString() shouldEqual "a  b  c"
+      }
+    }
   }
 }
