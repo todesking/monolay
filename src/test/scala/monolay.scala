@@ -123,5 +123,23 @@ class LayoutSpec extends FunSpec with Matchers {
         }
       }
     }
+    describe("#terminateLine()") {
+      describe("when current line is empty") {
+        it("should do nothing") {
+          val subject = new Layout(7)
+          subject.terminateLine()
+          subject.appendRaw("aaa")
+          subject.toString() shouldEqual "aaa"
+        }
+      }
+      describe("when current line is not empty") {
+        it("should append line delimiter") {
+          val subject = new Layout(7)
+          subject.appendRaw("aaa")
+          subject.terminateLine()
+          subject.toString() shouldEqual "aaa\n"
+        }
+      }
+    }
   }
 }
