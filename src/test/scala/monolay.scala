@@ -182,5 +182,25 @@ class LayoutSpec extends FunSpec with Matchers {
         subject.toString() shouldEqual "\n\n\n"
       }
     }
+    describe("#indent()") {
+      it("should increment indent level") {
+        val subject = new Layout(7)
+        subject.appendRaw("a")
+        subject.terminateLine()
+
+        subject.indent(2)
+
+        subject.appendRaw("b")
+        subject.terminateLine()
+
+        subject.appendRaw("c")
+        subject.terminateLine()
+
+        subject.indent(-1)
+        subject.appendRaw("d")
+
+        subject.toString() shouldEqual "a\n  b\n  c\n d"
+      }
+    }
   }
 }
