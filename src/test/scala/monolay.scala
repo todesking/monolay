@@ -169,5 +169,18 @@ class LayoutSpec extends FunSpec with Matchers {
         subject.toString() shouldEqual "\n1\n"
       }
     }
+    describe("#requireEmptyLines()") {
+      it("should append empty lines to satisfy requirement") {
+        val subject = new Layout(7)
+        subject.requireEmptyLines(1)
+        subject.toString() shouldEqual "\n"
+
+        subject.requireEmptyLines(3)
+        subject.toString() shouldEqual "\n\n\n"
+
+        subject.requireEmptyLines(3)
+        subject.toString() shouldEqual "\n\n\n"
+      }
+    }
   }
 }
