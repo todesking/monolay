@@ -202,5 +202,21 @@ class LayoutSpec extends FunSpec with Matchers {
         subject.toString() shouldEqual "a\n  b\n  c\n d"
       }
     }
+    describe("#withIndent()") {
+      it("should modify indent level within block") {
+        val subject = new Layout(7)
+        subject.appendRaw("a")
+        subject.terminateLine()
+
+        subject.withIndent(2) {
+          subject.appendRaw("b")
+        }
+        subject.terminateLine()
+
+        subject.appendRaw("c")
+
+        subject.toString() shouldEqual "a\n  b\nc"
+      }
+    }
   }
 }
