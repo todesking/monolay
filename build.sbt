@@ -19,3 +19,5 @@ instrumentSettings
 
 ScoverageKeys.highlighting := true
 
+// ScalaTest: Generate junit-style xml report
+testOptions += Tests.Argument(TestFrameworks.ScalaTest, "-u", "target/reports")
