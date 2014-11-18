@@ -51,7 +51,7 @@ class LayoutSpec extends FunSpec with Matchers {
         subject.toString shouldEqual ("a" * 20 + "b" * 20)
       }
     }
-    describe("#appendUnbreakable") {
+    describe("#appendUnbreakable()") {
       describe("current line is empty") {
         it("should append non-breakable text fragment") {
           val subject = new Layout(5)
@@ -71,6 +71,33 @@ class LayoutSpec extends FunSpec with Matchers {
         val subject = new Layout(3)
         subject.appendUnbreakable("aaa\nbbbbbb\ncccc")
         subject.toString() shouldEqual "aaa\nbbbbbb\ncccc"
+      }
+    }
+    describe("#appendText()") {
+      it("should append text with word-breaking") {
+        val subject = new Layout(5)
+        subject.appendText("This is an apple.")
+        subject.toString() shouldEqual "This\nis an\napple."
+      }
+      it("should append text with spacing") {
+        val subject = new Layout(5)
+        subject.appendRaw("a")
+        subject.appendText("b")
+        subject.toString() shouldEqual "a b"
+      }
+      it("should append text after optimalWidth if there is special character") {
+        val subject = new Layout(3)
+        subject.appendText("aaa")
+        subject.appendText(".")
+        subject.toString() shouldEqual "aaa."
+      }
+      it("should append text without spacing if cancelSpacing() called") {
+        val subject = new Layout(5)
+        subject.appendRaw("a")
+        subject.cancelSpacing()
+        subject.appendText("b")
+        subject.appendText("c")
+        subject.toString() shouldEqual "ab c"
       }
     }
   }
