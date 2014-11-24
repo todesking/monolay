@@ -144,6 +144,16 @@ class Layout(optimalWidth:Int, private var indentLevel:Int = 0) {
   def width(line:String):Int = {
     line.length
   }
+
+  def renderTable(cols: Int)(f: Table.Builder => Unit): Unit = {
+    val builder = Table.builder()
+    f(builder)
+    terminateLine()
+    builder.render(optimalWidth) {line =>
+      appendRaw(line)
+      newLine()
+    }
+  }
 }
 
 object Table {
@@ -225,7 +235,7 @@ object Table {
 
     def render(maxWidth:Int)(println:String=>Unit):Unit = {
       var widths = calcWidths(maxWidth)
-      def rowsep() = println("+" + widths.map{w => "-" * (w + 2)}.mkString("+") + "+")
+      def rowsep(hbar: String) = println("+" + widths.map{w => hbar * (w + 2)}.mkString("+") + "+")
       def outRow(row:Row) = {
         val subRows:Seq[Seq[String]] = quadrilateralize(row.cols.map(_.content.split("\n").toSeq), "").transpose
         val maxHeight = subRows.map(_.size).max
@@ -234,11 +244,11 @@ object Table {
           println(s"$sep " + row.zipWithIndex.map{case (r, i) => pad(r, calcDisplayWidth(_), widths(i), ' ', "...")}.mkString(s" $sep ") + " |")
         }
       }
-      rowsep()
+      rowsep("-")
       outRow(header)
-      rowsep()
+      rowsep("=")
       rows.foreach(outRow(_))
-      rowsep()
+      rowsep("-")
     }
   }
 }

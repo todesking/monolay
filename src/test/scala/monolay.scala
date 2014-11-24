@@ -4,8 +4,8 @@ import org.scalatest.{FunSpec, Matchers}
 import org.scalatest.Assertions._
 
 class LayoutSpec extends FunSpec with Matchers {
-  def withSubject[A](subject: A)(f: A => Unit) = f(subject)
-
+  def heredoc(s: String) =
+    s.stripMargin.replaceAll("""\A\n|\n +\Z""", "")
   describe("Layout") {
     describe("#toString()") {
       describe("when empty") {
@@ -248,6 +248,26 @@ class LayoutSpec extends FunSpec with Matchers {
        |  in culpa qui officia deserunt mollit
        |  anim id est laborum.
       """.stripMargin.trim
+    }
+    describe("Tables") {
+      describe("Example") {
+        describe("Simple case") {
+          val subject = new Layout(40)
+          subject.renderTable(cols = 3)  { t =>
+            t.setHeader(Seq("a", "b", "c"))
+            t.addRow(Seq("1", "2", "foo"))
+          }
+
+          subject.toString shouldEqual heredoc("""
+          |+---+---+-----+
+          || a | b | c   |
+          |+===+===+=====+
+          || 1 | 2 | foo |
+          |+---+---+-----+
+          |
+          """)
+        }
+      }
     }
   }
 }
