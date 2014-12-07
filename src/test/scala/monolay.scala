@@ -252,7 +252,7 @@ class LayoutSpec extends FunSpec with Matchers {
       describe("Example") {
         describe("Simple case") {
           val subject = new Layout(40)
-          subject.renderTable(cols = 3)  { t =>
+          subject.renderTable { t =>
             t.setHeader(Seq("a", "b", "c"))
             t.addRow(Seq("1", "2", "foo"))
           }

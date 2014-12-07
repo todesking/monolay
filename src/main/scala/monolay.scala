@@ -145,7 +145,7 @@ class Layout(optimalWidth:Int, private var indentLevel:Int = 0) {
     line.length
   }
 
-  def renderTable(cols: Int)(f: Table.Builder => Unit): Unit = {
+  def renderTable(f: Table.Builder => Unit): Unit = {
     val builder = Table.builder()
     f(builder)
     terminateLine()
