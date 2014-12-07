@@ -174,12 +174,17 @@ object Table {
     var calcDisplayWidth:(String => Int) = { _.size }
     private var header:Row = null
     private var rows:Seq[Row] = Seq()
+    private var widths: Option[Seq[Int]] = None
     def columnSize:Int = header.size
     def rowSize:Int = rows.size
 
     def setHeader(header:Seq[String]):this.type = {
       this.header = Row.fromPlain(header)
       this
+    }
+
+    def setWidths(ws: Seq[Int]): Unit = {
+      this.widths = Some(ws)
     }
 
     def addRow(cols:Seq[String]):this.type = {
@@ -234,14 +239,14 @@ object Table {
     }
 
     def render(maxWidth:Int)(println:String=>Unit):Unit = {
-      var widths = calcWidths(maxWidth)
-      def rowsep(hbar: String) = println("+" + widths.map{w => hbar * (w + 2)}.mkString("+") + "+")
+      var finalWidths = widths getOrElse calcWidths(maxWidth)
+      def rowsep(hbar: String) = println("+" + finalWidths.map{w => hbar * (w + 2)}.mkString("+") + "+")
       def outRow(row:Row) = {
         val subRows:Seq[Seq[String]] = quadrilateralize(row.cols.map(_.content.split("\n").toSeq), "").transpose
         val maxHeight = subRows.map(_.size).max
         subRows.zipWithIndex.foreach {case (row, i) =>
           val sep = if(i == 0) "|" else ":"
-          println(s"$sep " + row.zipWithIndex.map{case (r, i) => pad(r, calcDisplayWidth(_), widths(i), ' ', "...")}.mkString(s" $sep ") + " |")
+          println(s"$sep " + row.zipWithIndex.map{case (r, i) => pad(r, calcDisplayWidth(_), finalWidths(i), ' ', "...")}.mkString(s" $sep ") + " |")
         }
       }
       rowsep("-")

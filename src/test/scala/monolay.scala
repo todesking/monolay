@@ -266,6 +266,23 @@ class LayoutSpec extends FunSpec with Matchers {
           |
           """)
         }
+        describe("Text overflow") {
+          val subject = new Layout(100)
+          subject.renderTable { t =>
+            t.setWidths(Seq(10))
+            t.setHeader(Seq("a"))
+            t.addRow(Seq("a" * 20))
+          }
+
+          subject.toString shouldEqual heredoc(s"""
+          |+------------+
+          || a          |
+          |+============+
+          || aaaaaaa... |
+          |+------------+
+          |
+          """)
+        }
       }
     }
   }
