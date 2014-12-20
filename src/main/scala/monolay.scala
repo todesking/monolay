@@ -240,6 +240,8 @@ object Table {
     }
 
     def render(maxWidth:Int)(println:String=>Unit):Unit = {
+      if(header.isEmpty && rows.isEmpty)
+        return
       var finalWidths = widths getOrElse calcWidths(maxWidth)
       def rowsep(hbar: String) = println("+" + finalWidths.map{w => hbar * (w + 2)}.mkString("+") + "+")
       def outRow(row:Row) = {
