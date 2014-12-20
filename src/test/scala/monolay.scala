@@ -82,7 +82,7 @@ class LayoutSpec extends FunSpec with Matchers {
         subject.toString() shouldEqual "aaa\nbbbbbb\ncccc"
       }
       describe("with full-width characters") {
-        it("should supported") {
+        it("should support width calculation") {
           val subject = new Layout(6)
           subject.appendUnbreakable("あいう")
           subject.appendUnbreakable("え")
@@ -90,6 +90,15 @@ class LayoutSpec extends FunSpec with Matchers {
           subject.toString shouldEqual heredoc("""
           |あいう
           |え
+          """)
+        }
+        it("should suport word-breaking") {
+          val subject = new Layout(6)
+          subject.appendText("あいうえお")
+
+          subject.toString shouldEqual heredoc("""
+          |あいう
+          |えお
           """)
         }
       }

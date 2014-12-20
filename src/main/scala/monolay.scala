@@ -3,7 +3,8 @@ package com.todesking.monolay
 class Layout(
   optimalWidth:Int,
   private var indentLevel:Int = 0,
-  displayWidthRule: DisplayWidthRule = DisplayWidthRule.default
+  displayWidthRule: DisplayWidthRule = DisplayWidthRule.default,
+  wordBreakingRule: WordBreakingRule = WordBreakingRule.default
 ) {
   import scala.collection.mutable
   private var lines = mutable.ArrayBuffer.empty[String]
@@ -104,8 +105,8 @@ class Layout(
     currentLine = " " * indentLevel
   }
 
-  private[this] def appendBreakable0(str:String):Unit = {
-    val words = str.split("""\s+""").filter(_.nonEmpty)
+  private[this] def appendBreakable0(str: String): Unit = {
+    val words = wordBreakingRule.break(str)
     words.foreach { word =>
       appendUnbreakable0(word, needSpacing = true)
     }
@@ -133,6 +134,7 @@ class Layout(
 
   private[this] def needSpacingBeyond(c:Char, s:String):Boolean = {
     s.nonEmpty && (s(0) match {
+      case c if c > 0x7f => false
       case ' ' | ')' | ']' | ';' | '.' | ',' => false
       case _ => true
     }) && (c match {
@@ -161,7 +163,6 @@ class Layout(
 trait DisplayWidthRule {
   def widthOf(s: String): Int
 }
-
 object DisplayWidthRule {
   val default = new DisplayWidthRule {
     override def widthOf(s: String): Int =
@@ -174,6 +175,20 @@ object DisplayWidthRule {
     }
   }
 }
+
+trait WordBreakingRule {
+  def break(s: String): Seq[String]
+}
+
+object WordBreakingRule {
+  val default = new WordBreakingRule {
+    override def break(s: String): Seq[String] =
+      s.split("""\s+""").flatMap {w =>
+        w.split("""(?=[^\u0000-\u007f])""")
+      }.filter(_.nonEmpty)
+  }
+}
+
 
 object Table {
   def builder() = new Builder()
