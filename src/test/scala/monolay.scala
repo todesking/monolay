@@ -249,73 +249,71 @@ class LayoutSpec extends FunSpec with Matchers {
       """)
     }
     describe("Tables") {
-      describe("Example") {
-        describe("Simple case") {
-          val subject = new Layout(40)
-          subject.renderTable { t =>
-            t.setHeader(Seq("a", "b", "c"))
-            t.addRow(Seq("1", "2", "foo"))
-          }
-
-          subject.toString shouldEqual heredoc("""
-          |+---+---+-----+
-          || a | b | c   |
-          |+===+===+=====+
-          || 1 | 2 | foo |
-          |+---+---+-----+
-          |
-          """)
+      describe("Simple case") {
+        val subject = new Layout(40)
+        subject.renderTable { t =>
+          t.setHeader(Seq("a", "b", "c"))
+          t.addRow(Seq("1", "2", "foo"))
         }
-        describe("Text overflow") {
-          val subject = new Layout(100)
-          subject.renderTable { t =>
-            t.setWidths(Seq(10))
-            t.setHeader(Seq("a"))
-            t.addRow(Seq("a" * 20))
-          }
 
-          subject.toString shouldEqual heredoc(s"""
-          |+------------+
-          || a          |
-          |+============+
-          || aaaaaaa... |
-          |+------------+
-          |
-          """)
+        subject.toString shouldEqual heredoc("""
+        |+---+---+-----+
+        || a | b | c   |
+        |+===+===+=====+
+        || 1 | 2 | foo |
+        |+---+---+-----+
+        |
+        """)
+      }
+      describe("Text overflow") {
+        val subject = new Layout(100)
+        subject.renderTable { t =>
+          t.setWidths(Seq(10))
+          t.setHeader(Seq("a"))
+          t.addRow(Seq("a" * 20))
         }
-        describe("Without header") {
-          val subject = new Layout(100)
-          subject.renderTable { t =>
-            t.addRow(Seq("aaa"))
-          }
 
-          subject.toString shouldEqual heredoc(s"""
-          |+-----+
-          || aaa |
-          |+-----+
-          |
-          """)
+        subject.toString shouldEqual heredoc(s"""
+        |+------------+
+        || a          |
+        |+============+
+        || aaaaaaa... |
+        |+------------+
+        |
+        """)
+      }
+      describe("Without header") {
+        val subject = new Layout(100)
+        subject.renderTable { t =>
+          t.addRow(Seq("aaa"))
         }
-        describe("Only header") {
-          val subject = new Layout(100)
-          subject.renderTable { t =>
-            t.setHeader(Seq("aaa"))
-          }
 
-          subject.toString shouldEqual heredoc(s"""
-          |+-----+
-          || aaa |
-          |+=====+
-          |+-----+
-          |
-          """)
+        subject.toString shouldEqual heredoc(s"""
+        |+-----+
+        || aaa |
+        |+-----+
+        |
+        """)
+      }
+      describe("Only header") {
+        val subject = new Layout(100)
+        subject.renderTable { t =>
+          t.setHeader(Seq("aaa"))
         }
-        describe("Empty") {
-          val subject = new Layout(100)
-          subject.renderTable { t => }
 
-          subject.toString shouldEqual ""
-        }
+        subject.toString shouldEqual heredoc(s"""
+        |+-----+
+        || aaa |
+        |+=====+
+        |+-----+
+        |
+        """)
+      }
+      describe("Empty") {
+        val subject = new Layout(100)
+        subject.renderTable { t => }
+
+        subject.toString shouldEqual ""
       }
     }
   }
