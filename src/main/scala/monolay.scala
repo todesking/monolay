@@ -1,10 +1,16 @@
 package com.todesking.monolay
 
-class Layout(optimalWidth:Int, private var indentLevel:Int = 0) {
+class Layout(
+  optimalWidth:Int,
+  private var indentLevel:Int = 0,
+  displayWidthRule: DisplayWidthRule = DisplayWidthRule.default
+) {
   import scala.collection.mutable
   private var lines = mutable.ArrayBuffer.empty[String]
   private var currentLine:String = ""
   private var cancelNextSpacing = false
+
+  private[this] def width(s: String):Int = displayWidthRule.widthOf(s)
 
   def cancelSpacing():Unit = {
     cancelNextSpacing = true
@@ -140,10 +146,6 @@ class Layout(optimalWidth:Int, private var indentLevel:Int = 0) {
 
   private[this] def canNextLine(s:String):Boolean =
     "!.,:;)]}>".contains(s(0)).unary_!
-
-  def width(line:String):Int = {
-    line.length
-  }
 
   def renderTable(f: Table.Builder => Unit): Unit = {
     val builder = Table.builder()
