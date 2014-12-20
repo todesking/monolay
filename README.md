@@ -6,6 +6,40 @@
 Monolay is text layout engine.
 This is useful to generate simple text format(like Markdown), or to build user-friendly console application.
 
+```
+Monolayは、Scalaで書かれた等幅テキストレ
+イアウトエンジンです。コンソールアプリケ
+ーションの出力や、markdownのようなフォー
+マットの整形に適しています。
+
+Monolay support automatic word-breaking,
+full-width characters, table layout.
+
+Lorem ipsum dolor sit amet, consectetur
+adipiscing elit, sed do eiusmod tempor
+incididunt ut labore et dolore magna
+aliqua. Ut enim ad minim veniam, quis
+nostrud exercitation ullamco laboris
+nisi ut aliquip ex ea commodo consequat.
+Duis aute irure dolor in reprehenderit
+in voluptate velit esse cillum dolore eu
+fugiat nulla pariatur. Excepteur sint
+occaecat cupidatat non proident, sunt in
+culpa qui officia deserunt mollit anim
+id est laborum.
+
++----+---------+--------+
+| S  | V       | O      |
++====+=========+========+
+| It | support | tables |
++----+---------+--------+
+          And indent control is
+          supported.
+          +-------------+----+----+
+          | Combination | is | OK |
+          +-------------+----+----+
+```
+
 ## Features
 
 * Text layout engine
@@ -13,22 +47,15 @@ This is useful to generate simple text format(like Markdown), or to build user-f
   * Text alignment control(currently, align left and equal spaced is supported)
   * Vertical alignment control("require N empty lines above the content")
   * Indentation
+  * Full-width characters(ambiwidth is not yet)
 * Table layout engine
   * Auto width calculation
   * Omit text longer than column width
   * Multi-line columns
-  * Unicode support
 
 ## Current status
 
 STATUS: Under construction.
-
-The project based on these classes:
-
-* [dox's Layout class](https://github.com/todesking/dox/blob/6dfdb522fb3d5c7040dc64274e5e9cad0b8635ba/formatter.scala#L3)
-* [jcon's Table class](https://github.com/todesking/jcon/blob/04d7ab11f13959d2b6f579695112bd85bce6e768/src/main/scala/Table.scala)
-
-I'll porting these, and write tests.
 
 ## Related products
 
