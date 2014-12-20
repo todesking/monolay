@@ -170,16 +170,17 @@ object Table {
           cols.zipWithIndex.map { case (c, i) => Column(i, c) }
         )
       }
+      val empty: Row = Row(Seq())
     }
     var calcDisplayWidth:(String => Int) = { _.size }
-    private var header:Row = null
+    private var header:Option[Row] = None
     private var rows:Seq[Row] = Seq()
     private var widths: Option[Seq[Int]] = None
-    def columnSize:Int = header.size
+    def columnSize:Int = header.map(_.size) orElse rows.headOption.map(_.size) getOrElse 0
     def rowSize:Int = rows.size
 
     def setHeader(header:Seq[String]):this.type = {
-      this.header = Row.fromPlain(header)
+      this.header = Some(Row.fromPlain(header))
       this
     }
 
@@ -193,7 +194,7 @@ object Table {
     }
 
     def calcWidths(maxWidth:Int):Seq[Int] = {
-      val raw = header.cols.map { case Column(i, name) =>
+      val raw = (header orElse rows.headOption getOrElse Row.empty).cols.map { case Column(i, name) =>
           Math.max(calcDisplayWidth(name), rows.map{ r => calcDisplayWidth(r(i).content) }.++(Seq(0)).max)
       }
       optimizeWidth(raw, maxWidth - (2 * columnSize)/*padding*/ - (columnSize - 1)/*sep*/ - 4/*start/end*/)
@@ -250,8 +251,10 @@ object Table {
         }
       }
       rowsep("-")
-      outRow(header)
-      rowsep("=")
+      header foreach {h =>
+        outRow(h)
+        rowsep("=")
+      }
       rows.foreach(outRow(_))
       rowsep("-")
     }

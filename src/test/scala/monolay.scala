@@ -283,6 +283,19 @@ class LayoutSpec extends FunSpec with Matchers {
           |
           """)
         }
+        describe("Without header") {
+          val subject = new Layout(100)
+          subject.renderTable { t =>
+            t.addRow(Seq("aaa"))
+          }
+
+          subject.toString shouldEqual heredoc(s"""
+          |+-----+
+          || aaa |
+          |+-----+
+          |
+          """)
+        }
       }
     }
   }
